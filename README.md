@@ -42,7 +42,7 @@ credentials, project = google.auth.default(scopes=SCOPES)
 
 ```
 
-### For different alternatives
+#### For different alternatives
 
 [Docs](https://google-auth.readthedocs.io/en/latest/reference/google.auth.html#module-google.auth)
 

@@ -1,8 +1,11 @@
 from googleapiclient.discovery import build
 from google.auth.credentials import Credentials
 
+from google_sheet_simple_api.sheet import sheet_builder
+from google_sheet_simple_api.manager import SheetsManager
+
 # Docs by API
-## https://github.com/googleapis/google-api-python-client/blob/master/docs/README.md
+# https://github.com/googleapis/google-api-python-client/blob/master/docs/README.md
 
 
 class Sheet:
@@ -16,13 +19,13 @@ class Sheet:
 
     def __init__(self, spreadsheet_id: str, credentials: Credentials):
         self.spreadsheet_id = spreadsheet_id
-        self.sheet_service = build(
-            'sheets',
-            'v4',
-            credentials=credentials,
-        )
 
-        self.sheet = self.sheet_service.spreadsheets()
+        self.sheet = sheet_builder(credentials=credentials)
+
+        self.manager = SheetsManager(
+            spreadsheet_id=self.spreadsheet_id,
+            sheet=self.sheet
+        )
 
     def append(self, values, sheet_range: str):
         return self.sheet.values().append(

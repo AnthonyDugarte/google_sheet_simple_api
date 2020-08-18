@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name='google_sheet_simple_api',
-    version='0.0.1',
+    version='0.1.0',
     packages=find_packages(),
     author="Anthony Dugarte",
     author_email="toonny1998@gmai.com",

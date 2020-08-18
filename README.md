@@ -7,15 +7,14 @@ Simple google sheet API communication class for python based on official google 
 Currently, you can install google sheet simple api by its github's CVS url:
 
 ```bash
-pip install git+https://github.com/AnthonyDugarte/google_sheet_simple_api.git@0.0.1#google_sheet_simple_api
+pip install git+https://github.com/AnthonyDugarte/google_sheet_simple_api.git@0.1.0#google_sheet_simple_api
 ```
 
-Or, by appending it at your *requirements.txt*:
+Or, by appending it at your _requirements.txt_:
 
 ```bash
-echo -e "\ngit+https://github.com/AnthonyDugarte/google_sheet_simple_api.git@0.0.1#google_sheet_simple_api" >> requirements.txt
+echo -e "\ngit+https://github.com/AnthonyDugarte/google_sheet_simple_api.git@0.1.0#google_sheet_simple_api" >> requirements.txt
 ```
-
 
 ## Usage
 
@@ -87,4 +86,28 @@ sheet.update(
     values=[[2, 4, 16]],
     sheet_range="A1:C",
 )
+```
+
+#### Create sheet tab
+
+You can create sheet tabs by using sheets manager method: `create`. Example:
+
+```python
+sheet.manager.create(title: "new_sheet_tab") # True
+```
+
+##### Silent repetition
+
+By default, google API raises an exepction when an existing tab is tried to be recreated. This behavior is disabled by the flag `silent_repetition`.
+
+```python
+sheet.manager.create(title="new_sheet_tab", silent_repetition=False) # True
+sheet.manager.create(title="new_sheet_tab", silent_repetition=False) # False
+```
+
+In order to enable it again, you could then create the tab by:
+
+```python
+sheet.manager.create(title="new_sheet_tab", silent_repetition=False) # True
+sheet.manager.create(title="new_sheet_tab", silent_repetition=False) # Exepction is raised
 ```

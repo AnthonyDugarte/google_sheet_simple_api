@@ -1,7 +1,7 @@
 import json
 import re
 from googleapiclient.errors import HttpError
-from google_sheet_simple_api.error import RepeatedSheetTitle
+from google_sheet_simple_api.error import rescueRepeatedSheetTitle
 
 
 class SheetsManager():
@@ -22,7 +22,8 @@ class SheetsManager():
         # NOTEEEEEE TO THE FUTURE ME:
         # If functionalities that may cause multiple errors to ocurre are added,
         # the handling of them must be considered
-        try:
+
+        with rescueRepeatedSheetTitle(title=title, silent=silent_repetition):
             self.sheet.batchUpdate(
                 spreadsheetId=self.spreadsheet_id,
                 body={
@@ -37,28 +38,33 @@ class SheetsManager():
                     ],
                 },
             ).execute()
+            return True
+        return False
+
+    def duplicate(self, new_title: str, source_sheet_id: int, silent_repetition: bool = True) -> bool:
+        """Create a sheet tab with the given title based on another sheet.
+
+        Returns if sheet tab was created.
+
+        Args:
+            new_title: New Tab's Title.
+            source_sheet_id: New tab's base sheet.
+            silent_repetition: Indicates if an attempt to recreate a tab should be treated as a successful one and an exception should not be raised. Defaults to True.
+        """
+        with rescueRepeatedSheetTitle(title=new_title, silent=silent_repetition):
+            self.sheet.batchUpdate(
+                spreadsheetId=self.spreadsheet_id,
+                body={
+                    "requests": [
+                        {
+                            "duplicateSheet": {
+                                "newSheetName": new_title,
+                                "sourceSheetId": source_sheet_id,
+                            },
+                        },
+                    ],
+                },
+            ).execute()
 
             return True
-        except HttpError as err:
-            error_data = json.loads(err.content.decode())
-
-            if(isinstance(error_data, dict)):
-                error = error_data["error"]
-            elif isinstance(error_data, list) and len(error_data) > 0:
-                error = error_data[0]["error"]
-
-            if error and \
-                    error['status'] == 'INVALID_ARGUMENT' and \
-                    bool(
-                        re.search(
-                            "A sheet with the name \"%s\" already exists" % title,
-                            error['message']
-                        )
-                    ):
-
-                if silent_repetition:
-                    return False
-                else:
-                    raise RepeatedSheetTitle(error['message'])
-
-            raise
+        return False

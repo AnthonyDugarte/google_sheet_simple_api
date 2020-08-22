@@ -96,6 +96,14 @@ You can create sheet tabs by using sheets manager method: `create`. Example:
 sheet.manager.create(title: "new_sheet_tab") # True
 ```
 
+#### Duplicate sheet tab with custom name
+
+You can create sheet tabs based on other tabs by using sheets manager method: `duplicate`. Example:
+
+```python
+sheet.manager.duplicate(new_title: "new_sheet_tab", source_sheet_id: 12345) # True
+```
+
 ##### Silent repetition
 
 By default, google API raises an exepction when an existing tab is tried to be recreated. This behavior is disabled by the flag `silent_repetition`.

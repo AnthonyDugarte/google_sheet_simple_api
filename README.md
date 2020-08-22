@@ -7,13 +7,13 @@ Simple google sheet API communication class for python based on official google 
 Currently, you can install google sheet simple api by its github's CVS url:
 
 ```bash
-pip install git+https://github.com/AnthonyDugarte/google_sheet_simple_api.git@0.1.0#google_sheet_simple_api
+pip install git+https://github.com/AnthonyDugarte/google_sheet_simple_api.git@0.2.0#google_sheet_simple_api
 ```
 
 Or, by appending it at your _requirements.txt_:
 
 ```bash
-echo -e "\ngit+https://github.com/AnthonyDugarte/google_sheet_simple_api.git@0.1.0#google_sheet_simple_api" >> requirements.txt
+echo -e "\ngit+https://github.com/AnthonyDugarte/google_sheet_simple_api.git@0.2.0#google_sheet_simple_api" >> requirements.txt
 ```
 
 ## Usage
